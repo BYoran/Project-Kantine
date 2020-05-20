@@ -2,14 +2,35 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
+/**
+ * class Dienblad
+ * 
+ * @author Lucas Wagenaar
+ * @version 19-05-2020
+ */
+
 public class Dienblad {
+    private Persoon klant;
     private ArrayList<Artikel> artikelen;
+
 
     /**
      * Constructor
      */
     public Dienblad() {
-        // method body omitted
+        artikelen = new ArrayList<Artikel>();
+    }
+
+    public DienbladPersoon(Persoon klant) {
+        this.klant = klant;
+    }
+
+    public void setKlant(Persoon klant) {
+        this.klant = klant;
+    } 
+
+    public Persoon getKlant() {
+        return klant;
     }
 
     /**
@@ -18,7 +39,7 @@ public class Dienblad {
      * @param artikel
      */
     public void voegToe(Artikel artikel) {
-        // method body omitted
+        artikelen.add(artikel);
     }
 
     /**
@@ -27,7 +48,7 @@ public class Dienblad {
      * @return Het aantal artikelen
      */
     public int getAantalArtikelen() {
-        // method body omitted
+        return artikelen.size();
     }
 
     /**
@@ -36,7 +57,13 @@ public class Dienblad {
      * @return De totaalprijs
      */
     public double getTotaalPrijs() {
-        // method body omitted
+        double totaalPrijs = 0;
+
+        for(Artikel a : artikelen) {
+            totaalPrijs += a.getPrijs();
+        }
+        return totaalPrijs;
+
     }
 }
 
