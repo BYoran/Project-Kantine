@@ -1,3 +1,10 @@
+/**
+ * class Artikel
+ * 
+ * @author Bjorn Smit
+ * @version 19-05-2020
+ */
+
 public class Artikel {
 
     private String naam;

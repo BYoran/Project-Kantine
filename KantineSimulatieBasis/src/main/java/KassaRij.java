@@ -1,13 +1,23 @@
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * class KassaRij
+ * 
+ * @author Lucas Wagenaar en Bjorn Smit
+ * @version 27-05-2020
+ */
+
 public class KassaRij {
-    private ArrayList<Dienblad> klantenRij;
+
+    private LinkedList<Dienblad> klantenRij;
+    private int aantalKlanten;
+
     /**
      * Constructor
      */
     public KassaRij() {
-        klantenRij = new ArrayList<>();
+        klantenRij = new LinkedList<>();
     }
 
     /**
@@ -41,7 +51,7 @@ public class KassaRij {
      * @return Of er wel of geen rij bestaat
      */
     public boolean erIsEenRij() {
-        aantalKlanten = klanten.size();
+        aantalKlanten = klantenRij.size();
         if (aantalKlanten >= 2) {
             return true;
         }

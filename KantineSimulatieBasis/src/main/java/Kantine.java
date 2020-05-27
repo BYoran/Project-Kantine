@@ -1,7 +1,16 @@
+/**
+ * class Kantine
+ * 
+ * @author Bjorn Smit
+ * @version 27-05-2020
+ */
+
 public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
+    private Persoon persoon;
+    private Dienblad dienblad;
 
     /**
      * Constructor
@@ -17,15 +26,23 @@ public class Kantine {
      * voor de kassa.
      */
     public void loopPakSluitAan() {
-        // method body omitted
+        persoon = new Persoon();
+        dienblad = new Dienblad(persoon);
+        Artikel artikel1 = new Artikel();
+        Artikel artikel2 = new Artikel();
+        dienblad.voegToe(artikel1);
+        dienblad.voegToe(artikel2);
+        kassarij.sluitAchteraan(dienblad);
     }
 
     /**
-     * Deze methode handelt de rij voor de kassa af.
+     * Deze methode handelt de rij voor de kassa af. De while lus is handiger voor in deze methode,
+     * omdat je alleen hoeft te checken of de conditie waar is. Met een for lus moet je ook een nieuwe
+     * variable initialiseren en steeds aan het einde van de lus die variable verhogen of verlagen.
      */
     public void verwerkRijVoorKassa() {
-        while () {
-            // omitted
+        while (kassarij.erIsEenRij() == true) {
+            kassarij.eerstePersoonInRij();
         }
     }
 
@@ -35,7 +52,7 @@ public class Kantine {
      * @return hoeveelheid geld in kassa
      */
     public double hoeveelheidGeldInKassa() {
-        // method body omitted
+        return kassa.hoeveelheidGeldInKassa();
     }
 
     /**
@@ -44,7 +61,7 @@ public class Kantine {
      * @return het aantal gepasseerde artikelen
      */
     public int aantalArtikelen() {
-        // method body omitted
+        return kassa.aantalArtikelen();
     }
 
     /**
@@ -52,6 +69,7 @@ public class Kantine {
      * de kassa.
      */
     public void resetKassa() {
-        // method body omitted
+        kassa = new Kassa(kassarij);
+        kassarij = new KassaRij();
     }
 }

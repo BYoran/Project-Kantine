@@ -1,27 +1,26 @@
-import java.util.ArrayList;
-import java.util.Iterator;
+//import java.util.ArrayList;
 import java.util.Stack;
 
 /**
  * class Dienblad
  * 
- * @author Lucas Wagenaar
- * @version 19-05-2020
+ * @author Lucas Wagenaar en Bjorn Smit
+ * @version 27-05-2020
  */
 
 public class Dienblad {
-    private Persoon klant;
-    private ArrayList<Artikel> artikelen;
 
+    private Persoon klant;
+    private Stack<Artikel> artikelen;
 
     /**
      * Constructor
      */
     public Dienblad() {
-        artikelen = new ArrayList<Artikel>();
+        artikelen = new Stack<Artikel>();
     }
 
-    public DienbladPersoon(Persoon klant) {
+    public Dienblad(Persoon klant) {
         this.klant = klant;
     }
 
@@ -66,4 +65,3 @@ public class Dienblad {
 
     }
 }
-

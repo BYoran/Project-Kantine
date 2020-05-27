@@ -1,14 +1,20 @@
-import java.util.Iterator;
+/**
+ * class Kassa
+ * 
+ * @author Lucas Wagenaar
+ * @version 19-05-2020
+ */
 
 public class Kassa {
     
     private int aantalArtikelenBijKassa = 0;
     private double totaalKassa = 0;
+
     /**
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        kassarij = new KassaRij;
+        kassarij = new KassaRij();
     }
 
     /**
@@ -20,7 +26,7 @@ public class Kassa {
      */
     public void rekenAf(Dienblad klant) {
         aantalArtikelenBijKassa += klant.getAantalArtikelen();
-        totaalKassa += klant.getTotaalprijs();
+        totaalKassa += klant.getTotaalPrijs();
     }
 
     /**
