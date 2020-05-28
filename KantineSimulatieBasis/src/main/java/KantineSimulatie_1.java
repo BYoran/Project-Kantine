@@ -9,7 +9,11 @@ public class KantineSimulatie_1 {
 
     private Kantine kantine;
 
+    private Dienblad dienblad;
+
     public static final int DAGEN = 7;
+
+    private String[] artikelen = new String[] {"peer", "hamburger", "soep", "chocoladereep"};
 
     /**
      * Constructor
@@ -24,7 +28,9 @@ public class KantineSimulatie_1 {
      *
      * @param dagen
      */
-    public void simuleer(int dagen) {
+    
+     
+     public void simuleer(int dagen) {
 
         // herhaal voor elke dag
         for (int i = 0; i < dagen; i++) {
@@ -34,7 +40,7 @@ public class KantineSimulatie_1 {
 
             // for lus voor personen
             for (int j = 0; j < 10 + i; j++) {
-                kantine.loopPakSluitAan();
+                kantine.loopPakSluitAan(dienblad, artikelen);
             }
             // verwerk rij voor de kassa
             kantine.verwerkRijVoorKassa();
@@ -49,7 +55,8 @@ public class KantineSimulatie_1 {
     /**
      * Start een simulatie
      */
-    public static void main(String[] args) {
+    
+     public static void main(String[] args) {
         KantineSimulatie_1 kantinesimulatie1 = new KantineSimulatie_1();
         int dagen;
 
@@ -61,4 +68,5 @@ public class KantineSimulatie_1 {
         
         kantinesimulatie1.simuleer(dagen);
     }
+    
 }

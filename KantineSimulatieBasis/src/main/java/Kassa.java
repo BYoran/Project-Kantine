@@ -1,3 +1,4 @@
+import java.util.Iterator;
 /**
  * class Kassa
  * 
@@ -25,8 +26,12 @@ public class Kassa {
      * @param klant die moet afrekenen
      */
     public void rekenAf(Dienblad klant) {
-        aantalArtikelenBijKassa += klant.getAantalArtikelen();
-        totaalKassa += klant.getTotaalPrijs();
+        Iterator<Artikel> it = klant.getDienblad();
+        while(it.hasNext()) {
+            Artikel a = it.next();
+            totaalKassa += a.getPrijs();
+            aantalArtikelenBijKassa++;
+        }
     }
 
     /**

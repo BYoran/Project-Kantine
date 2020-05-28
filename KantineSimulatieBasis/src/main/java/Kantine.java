@@ -9,9 +9,12 @@ public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
-    private Persoon persoon;
-    private Dienblad dienblad;
+    //private Persoon persoon;
+    //private Dienblad dienblad;
+    private KantineAanbod kantineAanbod;
 
+    private double [] prijzen = new double[] {1.25, 1.50, 2.00, 2.00};
+    private int[] aantal = new int[] {3, 7, 11};
     /**
      * Constructor
      */
@@ -25,7 +28,16 @@ public class Kantine {
      * Artikelen aan en plaats deze op het dienblad. Tenslotte sluit de Persoon zich aan bij de rij
      * voor de kassa.
      */
-    public void loopPakSluitAan() {
+    public void loopPakSluitAan(Dienblad dienblad, String[] artikelnamen) {
+        kantineAanbod = new KantineAanbod(artikelnamen, prijzen, aantal);
+        setKantineAanbod(kantineAanbod);
+
+        for(int i = 0; i < artikelnamen.length-1; i++) {
+            dienblad.voegToe(kantineAanbod.getArtikel(artikelnamen[i]));
+        }
+    }
+    
+    /* public void loopPakSluitAan() {
         persoon = new Persoon();
         dienblad = new Dienblad(persoon);
         Artikel artikel1 = new Artikel();
@@ -33,7 +45,7 @@ public class Kantine {
         dienblad.voegToe(artikel1);
         dienblad.voegToe(artikel2);
         kassarij.sluitAchteraan(dienblad);
-    }
+    }*/
 
     /**
      * Deze methode handelt de rij voor de kassa af. De while lus is handiger voor in deze methode,
@@ -71,5 +83,13 @@ public class Kantine {
     public void resetKassa() {
         kassa = new Kassa(kassarij);
         kassarij = new KassaRij();
+    }
+    
+    public KantineAanbod getKantineAanbod() {
+        return kantineAanbod;
+    }
+
+    public void setKantineAanbod(KantineAanbod kantineAanbod) {
+        this.kantineAanbod = kantineAanbod;
     }
 }

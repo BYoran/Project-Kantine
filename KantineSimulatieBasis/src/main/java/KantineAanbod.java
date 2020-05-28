@@ -5,7 +5,7 @@ public class KantineAanbod {
     private HashMap<String, ArrayList<Artikel>> aanbod;
     private HashMap<String, Integer> startVoorraad;
     private HashMap<String, Double> prijzen;
-
+    
     /**
      * Constructor. Het eerste argument is een lijst met artikelnamen, het tweede argument is
      * eenlijst met prijzen en het derde argument is een lijst met hoeveelheden. Let op: de
