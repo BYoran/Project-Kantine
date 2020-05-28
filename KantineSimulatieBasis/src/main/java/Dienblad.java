@@ -1,6 +1,6 @@
 //import java.util.ArrayList;
 import java.util.Stack;
-
+import java.util.Iterator;
 /**
  * class Dienblad
  * 
@@ -63,5 +63,10 @@ public class Dienblad {
         }
         return totaalPrijs;
 
+    }
+
+    public Iterator<Artikel> getDienblad() {
+        Iterator<Artikel> it = artikelen.iterator();
+        return it;
     }
 }
