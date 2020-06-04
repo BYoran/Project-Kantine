@@ -53,7 +53,7 @@ public class Kantine {
      * variable initialiseren en steeds aan het einde van de lus die variable verhogen of verlagen.
      */
     public void verwerkRijVoorKassa() {
-        while (kassarij.erIsEenRij() == true) {
+        while (kassarij.erIsEenRij()) {
             kassarij.eerstePersoonInRij();
         }
     }
@@ -63,8 +63,8 @@ public class Kantine {
      *
      * @return hoeveelheid geld in kassa
      */
-    public double hoeveelheidGeldInKassa() {
-        return kassa.hoeveelheidGeldInKassa();
+    public Kassa getKassa() {
+        return kassa;
     }
 
     /**
