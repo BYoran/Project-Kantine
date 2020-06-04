@@ -4,7 +4,7 @@ import java.util.LinkedList;
 /**
  * class KassaRij
  * 
- * @author Lucas Wagenaar en Bjorn Smit
+ * @author Lucas Wagenaar & Bjorn Smit
  * @version 27-05-2020
  */
 

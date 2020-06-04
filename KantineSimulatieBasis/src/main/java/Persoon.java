@@ -18,19 +18,15 @@ public class Persoon {
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
-        if (geslacht != 'M' || geslacht != 'V') {
-            this.geslacht = '0';
-        } else {
-            this.geslacht = geslacht;
-        }
+        setGeslacht(geslacht);
     }
-    
+
     public Persoon() {
          bsn = 0;
          voornaam = "";
          achternaam = "";
          geboortedatum = null;
-         geslacht = '0';
+         geslacht = 'O';
      }
 
     /**
@@ -76,7 +72,7 @@ public class Persoon {
             string = "Man";
         } else if (geslacht == 'V') {
             string = "Vrouw";
-        } else if (geslacht == '0') {
+        } else if (geslacht == 'O') {
             string = "Onbekend";
         }
         return string;
@@ -118,12 +114,13 @@ public class Persoon {
         } else if (geslacht == 'V') {
             this.geslacht = geslacht;
         } else {
-            this.geslacht = '0';
+            this.geslacht = 'O';
         }
     }
 
     @Override
     public String toString() {
-        return "BSN: " + bsn + "/n" + "Voornaam: " + voornaam + "/n" + "Achternaam: " + achternaam + "/n" + "Geboortedatum: " + getGeboortedatum() + "/n" + "Geslacht: " + getGeslacht();
+        return "BSN: " + bsn + "\n" + "Voornaam: " + voornaam + "\n" + "Achternaam: " + achternaam
+        + "\n" + "Geboortedatum: " + getGeboortedatum() + "\n" + "Geslacht: " + getGeslacht();
     }
 }

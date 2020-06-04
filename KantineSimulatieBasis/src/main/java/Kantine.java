@@ -1,7 +1,7 @@
 /**
  * class Kantine
  * 
- * @author Bjorn Smit
+ * @author Bjorn Smit & Lucas Wagenaar
  * @version 27-05-2020
  */
 
@@ -9,12 +9,11 @@ public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
-    //private Persoon persoon;
-    //private Dienblad dienblad;
     private KantineAanbod kantineAanbod;
 
     private double [] prijzen = new double[] {1.25, 1.50, 2.00, 2.00};
     private int[] aantal = new int[] {3, 7, 11};
+
     /**
      * Constructor
      */
@@ -38,8 +37,9 @@ public class Kantine {
     }
     
     /* public void loopPakSluitAan() {
-        persoon = new Persoon();
-        dienblad = new Dienblad(persoon);
+        Persoon persoon = new Persoon();
+        Dienblad dienblad = new Dienblad();
+        dienblad.setKlant(persoon);
         Artikel artikel1 = new Artikel();
         Artikel artikel2 = new Artikel();
         dienblad.voegToe(artikel1);
@@ -58,33 +58,10 @@ public class Kantine {
         }
     }
 
-    /**
-     * Deze methode telt het geld uit de kassa
-     *
-     * @return hoeveelheid geld in kassa
-     */
     public Kassa getKassa() {
         return kassa;
     }
 
-    /**
-     * Deze methode geeft het aantal gepasseerde artikelen.
-     *
-     * @return het aantal gepasseerde artikelen
-     */
-    public int aantalArtikelen() {
-        return kassa.aantalArtikelen();
-    }
-
-    /**
-     * Deze methode reset de bijgehouden telling van het aantal artikelen en "leegt" de inhoud van
-     * de kassa.
-     */
-    public void resetKassa() {
-        kassa = new Kassa(kassarij);
-        kassarij = new KassaRij();
-    }
-    
     public KantineAanbod getKantineAanbod() {
         return kantineAanbod;
     }
@@ -92,4 +69,32 @@ public class Kantine {
     public void setKantineAanbod(KantineAanbod kantineAanbod) {
         this.kantineAanbod = kantineAanbod;
     }
+
+    /**
+     * Deze methode telt het geld uit de kassa
+     *
+     * @return hoeveelheid geld in kassa
+     */
+/*    public double hoeveelheidGeldInKassa() {
+        return kassa.hoeveelheidGeldInKassa();
+    }
+
+    /**
+     * Deze methode geeft het aantal gepasseerde artikelen.
+     *
+     * @return het aantal gepasseerde artikelen
+     */
+/*    public int aantalArtikelen() {
+        return kassa.aantalArtikelen();
+    }
+
+    /**
+     * Deze methode reset de bijgehouden telling van het aantal artikelen en "leegt" de inhoud van
+     * de kassa.
+     */
+/*    public void resetKassa() {
+        kassa = new Kassa(kassarij);
+        kassarij = new KassaRij();
+    }
+*/
 }

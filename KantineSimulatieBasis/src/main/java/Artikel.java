@@ -8,21 +8,21 @@
 public class Artikel {
 
     private String naam;
-    private float prijs;
+    private double prijs;
 
     /**
      * Declaratie is dat je bij een variable de naam en datatype opgeeft.
      * Initialisatie is dat je een variabele een waarde toekent.
      */
 
-    public Artikel(String naam, float prijs) {
+    public Artikel(String naam, double prijs) {
         this.naam = naam;
         this.prijs = prijs;
     }
 
     public Artikel() {
         naam = "";
-        prijs = (float) 0.0;
+        prijs = (double) 0.0;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Artikel {
     /**
 	 * @return the prijs
 	 */
-    public float getPrijs() {
+    public double getPrijs() {
         return prijs;
     }
 
@@ -49,12 +49,12 @@ public class Artikel {
     /**
 	 * @param prijs the prijs to set
 	 */
-    public void setPrijs(float nieuwePrijs) {
+    public void setPrijs(double nieuwePrijs) {
         prijs = nieuwePrijs;
     }
 
     @Override
     public String toString() {
-        return "Naam: " + naam + "/n" + "Prijs: " + prijs;
+        return "Naam: " + naam + "\n" + "Prijs: " + prijs;
     }
 }

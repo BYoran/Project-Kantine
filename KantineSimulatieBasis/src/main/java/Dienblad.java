@@ -1,10 +1,10 @@
-//import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Iterator;
+
 /**
  * class Dienblad
  * 
- * @author Lucas Wagenaar en Bjorn Smit
+ * @author Lucas Wagenaar & Bjorn Smit
  * @version 27-05-2020
  */
 
@@ -17,11 +17,12 @@ public class Dienblad {
      * Constructor
      */
     public Dienblad() {
-        artikelen = new Stack<Artikel>();
+        this(null);
     }
 
     public Dienblad(Persoon klant) {
         this.klant = klant;
+        this.artikelen = new Stack<>();
     }
 
     public void setKlant(Persoon klant) {
