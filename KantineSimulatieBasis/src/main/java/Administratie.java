@@ -32,7 +32,7 @@ public class Administratie {
                 int totaal = aantal.length;
                 int som = 0;
                 for (int i : aantal) {
-                    totaal += i;
+                    som += i;
                 }
                 gemiddeld = (double) som / totaal;
                 break;
