@@ -103,6 +103,6 @@ public class Datum {
 	 * @return Geboortedatum
 	 */
 	public String getDatumAsString() {
-		return dag + "-" + maand + "-" + jaar;
+		return getDag() + "-" + getMaand() + "-" + getJaar();
 	}
 }

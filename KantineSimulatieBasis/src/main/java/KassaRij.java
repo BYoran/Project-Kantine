@@ -41,7 +41,7 @@ public class KassaRij {
             klantenRij.remove(0);
             return eerstVolgendeKlant;
         }
-            return null;
+        return null;
     }
     
 

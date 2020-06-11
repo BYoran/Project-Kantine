@@ -3,8 +3,8 @@ import java.util.Iterator;
 /**
  * class Kassa
  * 
- * @author Lucas Wagenaar
- * @version 19-05-2020
+ * @author Lucas Wagenaar & Bjorn Smit
+ * @version 11-06-2020
  */
 
 public class Kassa {
@@ -30,8 +30,30 @@ public class Kassa {
         Iterator<Artikel> it = klant.getDienblad();
         while(it.hasNext()) {
             Artikel a = it.next();
-            totaalKassa += a.getPrijs();
             aantalArtikelenBijKassa++;
+            totaalKassa += a.getPrijs();
+        }
+
+        int aantalArtikelen = aantalArtikelenBijKassa;
+        double totaalPrijs = totaalKassa;
+        if (klant.getKlant() instanceof KortingskaartHouder) {
+            KortingskaartHouder kortingskaart = (KortingskaartHouder) klant.getKlant();
+            double prijsMetKorting = (1 - kortingskaart.geefKortingsPercentage()) * totaalPrijs;
+            double korting = totaalPrijs - prijsMetKorting;
+            if (kortingskaart.heeftMaximum() && korting > kortingskaart.geefMaximum()) {
+                totaalPrijs -= kortingskaart.geefMaximum();
+            } else {
+                totaalPrijs = prijsMetKorting;
+            }
+        }
+
+        Betaalwijze betaalwijze = klant.getKlant().getBetaalwijze();
+        boolean betaald = betaalwijze.betaal(totaalPrijs);
+        if (betaald) {
+            aantalArtikelenBijKassa += aantalArtikelen;
+            totaalKassa += totaalPrijs;
+        } else {
+            System.out.println("Betaling mislukt!");
         }
     }
 
@@ -60,7 +82,7 @@ public class Kassa {
      * kassa.
      */
     public void resetKassa() {
-        totaalKassa = 0;
         aantalArtikelenBijKassa = 0;
+        totaalKassa = 0;
     }
 }

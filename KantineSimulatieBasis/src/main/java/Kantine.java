@@ -48,9 +48,7 @@ public class Kantine {
     }*/
 
     /**
-     * Deze methode handelt de rij voor de kassa af. De while lus is handiger voor in deze methode,
-     * omdat je alleen hoeft te checken of de conditie waar is. Met een for lus moet je ook een nieuwe
-     * variable initialiseren en steeds aan het einde van de lus die variable verhogen of verlagen.
+     * Deze methode handelt de rij voor de kassa af. 
      */
     public void verwerkRijVoorKassa() {
         while (kassarij.erIsEenRij()) {

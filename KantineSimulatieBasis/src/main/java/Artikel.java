@@ -10,11 +10,6 @@ public class Artikel {
     private String naam;
     private double prijs;
 
-    /**
-     * Declaratie is dat je bij een variable de naam en datatype opgeeft.
-     * Initialisatie is dat je een variabele een waarde toekent.
-     */
-
     public Artikel(String naam, double prijs) {
         this.naam = naam;
         this.prijs = prijs;
@@ -55,6 +50,6 @@ public class Artikel {
 
     @Override
     public String toString() {
-        return "Naam: " + naam + "\n" + "Prijs: " + prijs;
+        return "Naam: " + getNaam() + "\n" + "Prijs: " + getPrijs();
     }
 }

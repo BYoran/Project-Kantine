@@ -4,7 +4,7 @@ import java.util.*;
  * class KantineSimulatie_2
  * 
  * @author Lucas Wagenaar
- * @version 27-05-2020
+ * @version 04-06-2020
  */
 
 public class KantineSimulatie_2 {

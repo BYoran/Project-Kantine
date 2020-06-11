@@ -2,7 +2,7 @@
  * class Persoon
  * 
  * @author Bjorn Smit
- * @version 19-05-2020
+ * @version 11-06-2020
  */
 
 public class Persoon {
@@ -12,6 +12,7 @@ public class Persoon {
     private String achternaam;
     private Datum geboortedatum;
     private char geslacht;
+    private Betaalwijze betaalwijze;
 
     public Persoon(int bsn, String voornaam, String achternaam, Datum geboortedatum, char geslacht) {
         this.bsn = bsn;
@@ -118,9 +119,17 @@ public class Persoon {
         }
     }
 
+    public Betaalwijze getBetaalwijze() {
+        return betaalwijze;
+    }
+
+    public void setBetaalwijze(Betaalwijze betaalwijze) {
+        this.betaalwijze = betaalwijze;
+    }
+
     @Override
     public String toString() {
-        return "BSN: " + bsn + "\n" + "Voornaam: " + voornaam + "\n" + "Achternaam: " + achternaam
+        return "BSN: " + getBsn() + "\n" + "Voornaam: " + getVoornaam() + "\n" + "Achternaam: " + getAchternaam()
         + "\n" + "Geboortedatum: " + getGeboortedatum() + "\n" + "Geslacht: " + getGeslacht();
     }
 }
