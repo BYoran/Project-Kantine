@@ -36,6 +36,7 @@ public class Kassa {
 
         int aantalArtikelen = aantalArtikelenBijKassa;
         double totaalPrijs = totaalKassa;
+
         if (klant.getKlant() instanceof KortingskaartHouder) {
             KortingskaartHouder kortingskaart = (KortingskaartHouder) klant.getKlant();
             double prijsMetKorting = (1 - kortingskaart.geefKortingsPercentage()) * totaalPrijs;
@@ -48,6 +49,16 @@ public class Kassa {
         }
 
         Betaalwijze betaalwijze = klant.getKlant().getBetaalwijze();
+        
+        try {
+            betaalwijze.betaal(totaalPrijs);
+            totaalKassa += totaalPrijs;
+            aantalArtikelenBijKassa += aantalArtikelen;
+        }
+        catch(TeWeinigGeldException e) {
+            System.out.println(e + klant.getKlant().getVoornaam() + " " + klant.getKlant().getAchternaam());
+        }
+        /*
         boolean betaald = betaalwijze.betaal(totaalPrijs);
         if (betaald) {
             aantalArtikelenBijKassa += aantalArtikelen;
@@ -55,6 +66,7 @@ public class Kassa {
         } else {
             System.out.println("Betaling mislukt!");
         }
+        */
     }
 
     /**

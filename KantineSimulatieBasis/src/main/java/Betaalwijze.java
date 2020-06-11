@@ -1,3 +1,9 @@
+/**
+ * class Betaalwijze
+ * 
+ * @author Lucas Wagenaar
+ * @version 11-06-2020
+ */
 public abstract class Betaalwijze {
 
     protected double saldo;
@@ -15,7 +21,7 @@ public abstract class Betaalwijze {
      * Methode om betaling af te handelen
      *
      * @param tebetalen
-     * @return Boolean om te kijken of er voldoende saldo is
+     * 
      */
-    public abstract boolean betaal(double tebetalen);
+    public abstract void betaal(double tebetalen) throws TeWeinigGeldException;
 }

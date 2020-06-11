@@ -1,7 +1,7 @@
 /**
  * class Contant
  * 
- * @author Bjorn Smit
+ * @author Bjorn Smit & Lucas Wagenaar
  * @version 11-06-2020
  */
 
@@ -9,12 +9,12 @@ public class Contant extends Betaalwijze {
     /**
      * Methode om betaling af te handelen
      */
-    public boolean betaal(double tebetalen) {
+    
+     public void betaal(double tebetalen) throws TeWeinigGeldException{
         if (saldo > tebetalen) {
-            return false;
+            throw new TeWeinigGeldException("Deze persoon heeft niet genoeg geld ");
         } else {
             setSaldo(saldo - tebetalen);
-            return true;
         }
     }
 }
