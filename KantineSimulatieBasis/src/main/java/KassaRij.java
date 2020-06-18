@@ -1,3 +1,4 @@
+//import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -39,10 +40,10 @@ public class KassaRij {
             Dienblad eerstVolgendeKlant = klantenRij.get(0);
             klantenRij.remove(0);
             return eerstVolgendeKlant;
-        } else {
-            return null;
         }
+        return null;
     }
+    
 
     /**
      * Methode kijkt of er personen in de rij staan.
@@ -53,7 +54,8 @@ public class KassaRij {
         aantalKlanten = klantenRij.size();
         if (aantalKlanten >= 2) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }

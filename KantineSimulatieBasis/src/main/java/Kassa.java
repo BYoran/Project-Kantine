@@ -9,15 +9,14 @@ import java.util.Iterator;
 
 public class Kassa {
     
-    private int aantalArtikelenBijKassa;
-    private double totaalKassa;
+    private int aantalArtikelenBijKassa = 0;
+    private double totaalKassa = 0;
 
     /**
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        aantalArtikelenBijKassa = 0;
-        totaalKassa = 0;
+        kassarij = new KassaRij();
     }
 
     /**
@@ -28,7 +27,9 @@ public class Kassa {
      * @param klant die moet afrekenen
      */
     public void rekenAf(Dienblad klant) {
+
         Iterator<Artikel> it = klant.getDienblad();
+
         while(it.hasNext()) {
             Artikel a = it.next();
             aantalArtikelenBijKassa++;
@@ -37,11 +38,18 @@ public class Kassa {
 
         int aantalArtikelen = aantalArtikelenBijKassa;
         double totaalPrijs = totaalKassa;
+        double kortingDagaanbiedingen = 0;
 
         if (klant.getKlant() instanceof KortingskaartHouder) {
+
             KortingskaartHouder kortingskaart = (KortingskaartHouder) klant.getKlant();
+
             double prijsMetKorting = (1 - kortingskaart.geefKortingsPercentage()) * totaalPrijs;
             double korting = totaalPrijs - prijsMetKorting;
+            
+            
+            
+            
             if (kortingskaart.heeftMaximum() && korting > kortingskaart.geefMaximum()) {
                 totaalPrijs -= kortingskaart.geefMaximum();
             } else {
@@ -55,7 +63,8 @@ public class Kassa {
             betaalwijze.betaal(totaalPrijs);
             totaalKassa += totaalPrijs;
             aantalArtikelenBijKassa += aantalArtikelen;
-        } catch(TeWeinigGeldException e) {
+        }
+        catch(TeWeinigGeldException e) {
             System.out.println(e + klant.getKlant().getVoornaam() + " " + klant.getKlant().getAchternaam());
         }
         /*

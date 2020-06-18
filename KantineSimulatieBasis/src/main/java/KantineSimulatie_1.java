@@ -57,6 +57,7 @@ public class KantineSimulatie_1 {
      */
     
      public static void main(String[] args) {
+        KantineSimulatie_1 kantinesimulatie1 = new KantineSimulatie_1();
         int dagen;
 
         if (args.length == 0) {
@@ -64,8 +65,8 @@ public class KantineSimulatie_1 {
         } else {
             dagen = Integer.parseInt(args[0]);
         }
-
-        KantineSimulatie_1 kantinesimulatie1 = new KantineSimulatie_1();
+        
         kantinesimulatie1.simuleer(dagen);
     }
+    
 }

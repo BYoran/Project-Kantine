@@ -9,10 +9,23 @@ public class Artikel {
 
     private String naam;
     private double prijs;
+    private double korting = 0;
 
     public Artikel(String naam, double prijs) {
         this.naam = naam;
         this.prijs = prijs;
+    }
+
+    public Artikel(String naam, double prijs, double korting) {
+        this.naam = naam;
+        this.prijs = prijs;
+        if(korting == 0) {
+            this.korting = 0;
+        }
+        else {
+            this.korting = korting;
+        }
+
     }
 
     public Artikel() {
@@ -46,6 +59,14 @@ public class Artikel {
 	 */
     public void setPrijs(double nieuwePrijs) {
         prijs = nieuwePrijs;
+    }
+
+    public double getKorting() {
+        return korting;
+    }
+
+    public void setKorting(double korting) {
+        this.korting = korting;
     }
 
     @Override
