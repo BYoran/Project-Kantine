@@ -9,14 +9,15 @@ import java.util.Iterator;
 
 public class Kassa {
     
-    private int aantalArtikelenBijKassa = 0;
-    private double totaalKassa = 0;
+    private int aantalArtikelenBijKassa;
+    private double totaalKassa;
 
     /**
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        kassarij = new KassaRij();
+        aantalArtikelenBijKassa = 0;
+        totaalKassa = 0;
     }
 
     /**
@@ -54,8 +55,7 @@ public class Kassa {
             betaalwijze.betaal(totaalPrijs);
             totaalKassa += totaalPrijs;
             aantalArtikelenBijKassa += aantalArtikelen;
-        }
-        catch(TeWeinigGeldException e) {
+        } catch(TeWeinigGeldException e) {
             System.out.println(e + klant.getKlant().getVoornaam() + " " + klant.getKlant().getAchternaam());
         }
         /*

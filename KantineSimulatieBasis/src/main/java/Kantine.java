@@ -9,10 +9,10 @@ public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
-    private KantineAanbod kantineAanbod;
+    private KantineAanbod kantineaanbod;
 
-    private double [] prijzen = new double[] {1.25, 1.50, 2.00, 2.00};
-    private int[] aantal = new int[] {3, 7, 11};
+    //private double [] prijzen = new double[] {1.25, 1.50, 2.00, 2.00};
+    //private int[] aantal = new int[] {3, 7, 11};
 
     /**
      * Constructor
@@ -28,12 +28,10 @@ public class Kantine {
      * voor de kassa.
      */
     public void loopPakSluitAan(Dienblad dienblad, String[] artikelnamen) {
-        kantineAanbod = new KantineAanbod(artikelnamen, prijzen, aantal);
-        setKantineAanbod(kantineAanbod);
-
-        for(int i = 0; i < artikelnamen.length-1; i++) {
-            dienblad.voegToe(kantineAanbod.getArtikel(artikelnamen[i]));
+        for (int i = 0; i < artikelnamen.length; i++) {
+            dienblad.voegToe(kantineaanbod.getArtikel(artikelnamen[i]));
         }
+        kassarij.sluitAchteraan(dienblad);
     }
     
     /* public void loopPakSluitAan() {
@@ -52,7 +50,8 @@ public class Kantine {
      */
     public void verwerkRijVoorKassa() {
         while (kassarij.erIsEenRij()) {
-            kassarij.eerstePersoonInRij();
+            Dienblad klant = kassarij.eerstePersoonInRij();
+            kassa.rekenAf(klant);
         }
     }
 
@@ -61,11 +60,15 @@ public class Kantine {
     }
 
     public KantineAanbod getKantineAanbod() {
-        return kantineAanbod;
+        return kantineaanbod;
     }
 
-    public void setKantineAanbod(KantineAanbod kantineAanbod) {
-        this.kantineAanbod = kantineAanbod;
+    public void setKantineAanbod(KantineAanbod kantineaanbod) {
+        this.kantineaanbod = kantineaanbod;
+    }
+
+    public KassaRij getKassarij() {
+        return kassarij;
     }
 
     /**

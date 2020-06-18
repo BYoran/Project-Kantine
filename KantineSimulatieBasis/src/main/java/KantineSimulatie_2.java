@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * class KantineSimulatie_2
  * 
- * @author Lucas Wagenaar
+ * @author Lucas Wagenaar & Bjorn Smit
  * @version 04-06-2020
  */
 
@@ -108,6 +108,13 @@ public class KantineSimulatie_2 {
      * @param dagen
      */
     public void simuleer(int dagen) {
+        double[] omzet = new double[dagen];
+        int[] aantalArtikelenPerDag = new int[dagen];
+        ArrayList<Artikel> aanbod = new ArrayList<>();
+        for(int i = 0; i < artikelnamen.length; i++) {
+            aanbod.add(new Artikel(artikelnamen[i], artikelprijzen[i]));
+        }
+
         // for lus voor dagen
         for(int i = 0; i < dagen; i++) {
 
@@ -118,15 +125,31 @@ public class KantineSimulatie_2 {
             for (int j = 0; j < aantalpersonen; j++) {
 
                 // maak persoon en dienblad aan, koppel ze
-                // en bedenk hoeveel artikelen worden gepakt
-                Persoon persoon = new Persoon();
+                Persoon persoon;
+                int kans = random.nextInt(100);
+
+                if (kans == 1) {
+                    persoon = new KantineMedewerker();
+                } else if (kans > 1 && kans <= 11) {
+                    persoon = new Docent();
+                } else {
+                    persoon = new Student();
+                }
+
+                Pinpas portemonnee = new Pinpas();
+                portemonnee.setSaldo(getRandomValue(-5, 20));
+                portemonnee.setKredietLimiet(getRandomValue(-20, 0));
+                persoon.setBetaalwijze(portemonnee);
+
                 Dienblad dienblad = new Dienblad(persoon);
+                System.out.println(persoon.toString());
+
+                // en bedenk hoeveel artikelen worden gepakt
                 int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
 
                 // genereer de "artikelnummers", dit zijn indexen
                 // van de artikelnamen
-                int[] tepakken = getRandomArray(
-                    aantalartikelen, 0, AANTAL_ARTIKELEN-1);
+                int[] tepakken = getRandomArray(aantalartikelen, 0, AANTAL_ARTIKELEN - 1);
 
                 // vind de artikelnamen op basis van
                 // de indexen hierboven
@@ -144,25 +167,50 @@ public class KantineSimulatie_2 {
             // druk de dagtotalen af en hoeveel personen binnen
             // zijn gekomen
             //kantine.hoeveelheidGeldInKassa();
+            int dag = i + 1;
             Kassa kassa = kantine.getKassa();
+
+            System.out.println("\n" + "Dagtotalen:");
+            System.out.println("Aantal personen in kantine voor dag " + dag + ": " + 100);
+            System.out.println("Aantal artikelen dat kassa passeert voor dag " + dag + ": " + kassa.aantalArtikelen());
+            System.out.println("Hoeveelheid geld in kassa voor dag " + dag + ": " + kassa.hoeveelheidGeldInKassa());
+
+            omzet[i] += kassa.hoeveelheidGeldInKassa();
+            aantalArtikelenPerDag[i] += kassa.aantalArtikelen();
 
             // reset de kassa voor de volgende dag
             //kantine.resetKassa();
             kassa.resetKassa();
         }
+        System.out.println("\n" + "Administratie:");
+
+        double gemiddeldAantal = Administratie.berekenGemiddeldAantal(aantalArtikelenPerDag);
+        System.out.println("Gemiddelde aantal artikelen per dag: " + gemiddeldAantal);
+
+        double gemideldeOmzet = Administratie.berekenGemiddeldeOmzet(omzet);
+        System.out.println("Gemiddelde omzet: " + gemideldeOmzet);
+
+        String[] weekDagen = new String[] { "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag" };
+        double[] dagOmzet = Administratie.berekenDagOmzet(omzet);
+
+        for(int i = 0; i < weekDagen.length; i++) {
+            System.out.println("Totale omzet van alle " + weekDagen[i] + "en: " +  dagOmzet[i]);
+        }
+
+        System.out.println("Aantal dagen gesimuleerd: " + dagen);
     }
-    
+
     public static void main(String[] args) {
         int dagen;
 
         if (args.length == 0) {
-            dagen = 10;
+            dagen = 7;
         }
         else {
             dagen = Integer.parseInt(args[0]);
         }
+
         KantineSimulatie_2 kantineSimulatie = new KantineSimulatie_2();
         kantineSimulatie.simuleer(dagen);
-
     }
 }
