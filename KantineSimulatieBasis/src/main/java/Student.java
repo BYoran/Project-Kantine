@@ -14,7 +14,11 @@ public class Student extends Persoon {
         super(bsn, voornaam, achternaam, geboortedatum, geslacht);
         this.studentnr = studentnr;
         this.studierichting = studierichting;
-    }    
+    }
+
+    public Student() {
+        
+    }
 
     public int getStudentnr() {
         return studentnr; 

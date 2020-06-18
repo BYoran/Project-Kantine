@@ -16,6 +16,10 @@ public class KantineMedewerker extends Persoon implements KortingskaartHouder {
         this.toestemmingKassa = toestemmingKassa;
     }
 
+    public KantineMedewerker() {
+        
+    }
+
     public int getMedewerkersNummer() {
         return medewerkersNummer;
     }

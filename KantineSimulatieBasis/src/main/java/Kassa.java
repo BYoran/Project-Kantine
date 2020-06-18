@@ -9,14 +9,15 @@ import java.util.Iterator;
 
 public class Kassa {
     
-    private int aantalArtikelenBijKassa = 0;
-    private double totaalKassa = 0;
+    private int aantalArtikelenBijKassa;
+    private double totaalKassa;
 
     /**
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        kassarij = new KassaRij();
+        aantalArtikelenBijKassa = 0;
+        totaalKassa = 0;
     }
 
     /**
@@ -27,35 +28,49 @@ public class Kassa {
      * @param klant die moet afrekenen
      */
     public void rekenAf(Dienblad klant) {
+        double kortingDagaanbiedingen = 0;
 
         Iterator<Artikel> it = klant.getDienblad();
-
         while(it.hasNext()) {
             Artikel a = it.next();
+            totaalKassa += a.getPrijs();
+            if(a.getKorting() > 0){
+                totaalKassa -= a.getKorting();
+                kortingDagaanbiedingen += a.getKorting();
+            }
             aantalArtikelenBijKassa++;
             totaalKassa += a.getPrijs();
         }
 
         int aantalArtikelen = aantalArtikelenBijKassa;
         double totaalPrijs = totaalKassa;
-        double kortingDagaanbiedingen = 0;
+        Persoon persoon = klant.getKlant(); // de klant
 
+        if(persoon instanceof KortingskaartHouder){
+            KortingskaartHouder klantMetKorting = (KortingskaartHouder) persoon; // casten
+
+            if(klantMetKorting.heeftMaximum()){
+                if((klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 < klantMetKorting.geefMaximum()){
+                    totaalPrijs -= (klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+                }else{
+                    totaalPrijs -= klantMetKorting.geefMaximum() + kortingDagaanbiedingen; // haal max van het bedrag af
+                }
+            }else{
+                totaalPrijs -= (klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+            }
+        }
+        /*
         if (klant.getKlant() instanceof KortingskaartHouder) {
-
             KortingskaartHouder kortingskaart = (KortingskaartHouder) klant.getKlant();
-
             double prijsMetKorting = (1 - kortingskaart.geefKortingsPercentage()) * totaalPrijs;
             double korting = totaalPrijs - prijsMetKorting;
-            
-            
-            
-            
             if (kortingskaart.heeftMaximum() && korting > kortingskaart.geefMaximum()) {
                 totaalPrijs -= kortingskaart.geefMaximum();
             } else {
                 totaalPrijs = prijsMetKorting;
             }
         }
+        */
 
         Betaalwijze betaalwijze = klant.getKlant().getBetaalwijze();
         
@@ -63,8 +78,7 @@ public class Kassa {
             betaalwijze.betaal(totaalPrijs);
             totaalKassa += totaalPrijs;
             aantalArtikelenBijKassa += aantalArtikelen;
-        }
-        catch(TeWeinigGeldException e) {
+        } catch(TeWeinigGeldException e) {
             System.out.println(e + klant.getKlant().getVoornaam() + " " + klant.getKlant().getAchternaam());
         }
         /*
