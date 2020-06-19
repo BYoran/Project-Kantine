@@ -4,7 +4,7 @@ import java.util.Iterator;
  * class Kassa
  * 
  * @author Lucas Wagenaar & Bjorn Smit
- * @version 11-06-2020
+ * @version 18-06-2020
  */
 
 public class Kassa {
@@ -31,10 +31,10 @@ public class Kassa {
         double kortingDagaanbiedingen = 0;
 
         Iterator<Artikel> it = klant.getDienblad();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Artikel a = it.next();
             totaalKassa += a.getPrijs();
-            if(a.getKorting() > 0){
+            if (a.getKorting() > 0) {
                 totaalKassa -= a.getKorting();
                 kortingDagaanbiedingen += a.getKorting();
             }
@@ -46,17 +46,17 @@ public class Kassa {
         double totaalPrijs = totaalKassa;
         Persoon persoon = klant.getKlant(); // de klant
 
-        if(persoon instanceof KortingskaartHouder){
+        if (persoon instanceof KortingskaartHouder) {
             KortingskaartHouder klantMetKorting = (KortingskaartHouder) persoon; // casten
 
-            if(klantMetKorting.heeftMaximum()){
-                if((klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 < klantMetKorting.geefMaximum()){
-                    totaalPrijs -= (klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 + kortingDagaanbiedingen; // haal korting van het bedrag af
-                }else{
+            if (klantMetKorting.heeftMaximum()) {
+                if ((klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 < klantMetKorting.geefMaximum()) {
+                    totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+                } else {
                     totaalPrijs -= klantMetKorting.geefMaximum() + kortingDagaanbiedingen; // haal max van het bedrag af
                 }
-            }else{
-                totaalPrijs -= (klantMetKorting.geefKortingsPercentage()*totaalPrijs)/100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+            } else {
+                totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
             }
         }
         /*

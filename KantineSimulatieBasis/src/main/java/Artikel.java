@@ -1,8 +1,8 @@
 /**
  * class Artikel
  * 
- * @author Bjorn Smit
- * @version 19-05-2020
+ * @author Bjorn Smit & Lucas Wagenaar
+ * @version 18-06-2020
  */
 
 public class Artikel {
@@ -19,13 +19,11 @@ public class Artikel {
     public Artikel(String naam, double prijs, double korting) {
         this.naam = naam;
         this.prijs = prijs;
-        if(korting == 0) {
+        if (korting == 0) {
             this.korting = 0;
-        }
-        else {
+        } else {
             this.korting = korting;
         }
-
     }
 
     public Artikel() {
