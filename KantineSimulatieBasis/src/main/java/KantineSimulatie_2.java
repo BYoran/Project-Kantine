@@ -234,13 +234,13 @@ public class KantineSimulatie_2 {
 
         Query totaleOmzet = manager.createQuery("SELECT SUM(totaal) FROM Factuur");
         Query toegepasteKorting = manager.createQuery("SELECT SUM(korting) FROM Factuur");
-        System.out.println("Totale omzet: " + totaleOmzet);
-        System.out.println("Toegepaste korting: " + toegepasteKorting);
+        System.out.println("Totale omzet: " + totaleOmzet.getSingleResult());
+        System.out.println("Toegepaste korting: " + toegepasteKorting.getSingleResult());
 
         Query gemiddeldeOmzetPerFactuur = manager.createQuery("SELECT AVG(totaal) FROM Factuur");
         Query toegepasteKortingPerFactuur = manager.createQuery("SELECT AVG(korting) FROM Factuur");
-        System.out.println("Gemiddelde omzet per factuur: " + gemiddeldeOmzetPerFactuur);
-        System.out.println("Toegepaste korting per factuur: " + toegepasteKortingPerFactuur);
+        System.out.println("Gemiddelde omzet per factuur: " + gemiddeldeOmzetPerFactuur.getSingleResult());
+        System.out.println("Toegepaste korting per factuur: " + toegepasteKortingPerFactuur.getSingleResult());
 
         Query top = manager.createQuery("SELECT id, datum, korting, totaal FROM Factuur ORDER BY totaal DESC");
         top.setMaxResults(3);
