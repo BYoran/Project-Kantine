@@ -51,7 +51,7 @@ public class KassaRij {
      */
     public boolean erIsEenRij() {
         aantalKlanten = klantenRij.size();
-        if (aantalKlanten >= 2) {
+        if (aantalKlanten > 0) {
             return true;
         } else {
             return false;

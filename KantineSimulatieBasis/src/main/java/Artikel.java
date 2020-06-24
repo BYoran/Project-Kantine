@@ -9,7 +9,7 @@ public class Artikel {
 
     private String naam;
     private double prijs;
-    private double korting = 0;
+    private double korting = (double) 0.0;
 
     public Artikel(String naam, double prijs) {
         this.naam = naam;
@@ -19,11 +19,7 @@ public class Artikel {
     public Artikel(String naam, double prijs, double korting) {
         this.naam = naam;
         this.prijs = prijs;
-        if (korting == 0) {
-            this.korting = 0;
-        } else {
-            this.korting = korting;
-        }
+        this.korting = korting;
     }
 
     public Artikel() {

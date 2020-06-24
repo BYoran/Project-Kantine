@@ -58,16 +58,13 @@ public class Dienblad {
      */
     public double getTotaalPrijs() {
         double totaalPrijs = 0;
-
-        for(Artikel a : artikelen) {
+        for (Artikel a : artikelen) {
             totaalPrijs += a.getPrijs();
         }
         return totaalPrijs;
-
     }
 
     public Iterator<Artikel> getDienblad() {
-        Iterator<Artikel> it = artikelen.iterator();
-        return it;
+        return artikelen.iterator();
     }
 }

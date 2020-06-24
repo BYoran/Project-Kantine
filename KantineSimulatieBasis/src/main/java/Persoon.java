@@ -23,12 +23,12 @@ public class Persoon {
     }
 
     public Persoon() {
-         bsn = 0;
-         voornaam = "";
-         achternaam = "";
-         geboortedatum = null;
-         geslacht = 'O';
-     }
+        bsn = 0;
+        voornaam = "";
+        achternaam = "";
+        geboortedatum = null;
+        geslacht = 'O';
+    }
 
     /**
      * @return the bsn

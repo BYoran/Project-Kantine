@@ -1,8 +1,10 @@
+import javax.persistence.EntityManager;
+
 /**
  * class Kantine
  * 
  * @author Bjorn Smit & Lucas Wagenaar
- * @version 27-05-2020
+ * @version 24-06-2020
  */
 
 public class Kantine {
@@ -10,16 +12,20 @@ public class Kantine {
     private Kassa kassa;
     private KassaRij kassarij;
     private KantineAanbod kantineaanbod;
-
-    //private double [] prijzen = new double[] {1.25, 1.50, 2.00, 2.00};
-    //private int[] aantal = new int[] {3, 7, 11};
+    private EntityManager manager;
 
     /**
      * Constructor
      */
+    public Kantine(EntityManager manager) {
+        kassarij = new KassaRij();
+        kassa = new Kassa(kassarij, manager);
+        this.manager = manager;
+    }
+
     public Kantine() {
         kassarij = new KassaRij();
-        kassa = new Kassa(kassarij);
+        kassa = new Kassa(kassarij, manager);
     }
 
     /**
@@ -70,7 +76,7 @@ public class Kantine {
     public KassaRij getKassarij() {
         return kassarij;
     }
-
+/*
     /**
      * Deze methode telt het geld uit de kassa
      *

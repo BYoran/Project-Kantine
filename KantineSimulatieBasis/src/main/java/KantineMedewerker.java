@@ -49,8 +49,7 @@ public class KantineMedewerker extends Persoon implements KortingskaartHouder {
 
     @Override
     public boolean heeftMaximum() {
-        double maximum = geefMaximum();
-        return maximum != 0;
+        return false;
     }  
 
     @Override

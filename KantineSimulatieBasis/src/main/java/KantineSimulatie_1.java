@@ -42,13 +42,16 @@ public class KantineSimulatie_1 {
             for (int j = 0; j < 10 + i; j++) {
                 kantine.loopPakSluitAan(dienblad, artikelen);
             }
+
             // verwerk rij voor de kassa
             kantine.verwerkRijVoorKassa();
+
             // toon dagtotalen (artikelen en geld in kassa)
-            //kantine.hoeveelheidGeldInKassa();
-            //kantine.aantalArtikelen();
+            System.out.println("Artikelen: " + kantine.getKassa().hoeveelheidGeldInKassa());
+            System.out.println("Geld: " + kantine.getKassa().aantalArtikelen());
+
             // reset de kassa voor de volgende dag
-            //kantine.resetKassa();
+            kantine.getKassa().resetKassa();
         }
     }
 

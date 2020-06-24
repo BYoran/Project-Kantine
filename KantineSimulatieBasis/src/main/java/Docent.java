@@ -48,8 +48,7 @@ public class Docent extends Persoon implements KortingskaartHouder {
 
     @Override
     public boolean heeftMaximum() {
-        double maximum = geefMaximum();
-        return maximum != 0;
+        return true;
     }
 
     @Override
