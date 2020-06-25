@@ -9,17 +9,21 @@ public class Artikel {
 
     private String naam;
     private double prijs;
-    private double korting = (double) 0.0;
+    private double korting;
+    private double modifier;
 
     public Artikel(String naam, double prijs) {
         this.naam = naam;
         this.prijs = prijs;
+        korting = 0;
     }
 
     public Artikel(String naam, double prijs, double korting) {
         this.naam = naam;
         this.prijs = prijs;
         this.korting = korting;
+        modifier = 1;
+        berekenMetKorting();
     }
 
     public Artikel() {
@@ -61,6 +65,10 @@ public class Artikel {
 
     public void setKorting(double korting) {
         this.korting = korting;
+    }
+
+    public void berekenMetKorting(){
+        this.prijs = this.prijs * (modifier - korting);
     }
 
     @Override

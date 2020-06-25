@@ -7,12 +7,13 @@ import java.io.Serializable;
  * @author Lucas Wagenaar
  * @version 24-06-2020
  */
+
 @Entity
-@Table(name = "FactuurRegel")
+@Table(name = "factuurregel")
 public class FactuurRegel implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -27,14 +28,14 @@ public class FactuurRegel implements Serializable {
     }
     
     public FactuurRegel(Factuur factuur, Artikel artikel) {
-    this.factuur = factuur;
-    this.artikel = artikel;
+        this.factuur = factuur;
+        this.artikel = artikel;
     }
     
     /**
      * @return een printbare factuurregel
-    */
+     */
     public String toString() {
-         return artikel.getNaam() + " Totaal: €" + artikel.getPrijs();
+        return artikel.getNaam() + " Totaal: €" + artikel.getPrijs();
     }
 }

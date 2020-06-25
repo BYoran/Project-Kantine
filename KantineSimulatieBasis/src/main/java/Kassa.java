@@ -39,7 +39,7 @@ public class Kassa {
         Iterator<Artikel> it = klant.getDienblad();
 
         while (it.hasNext()) {
-            //Artikel a = it.next();
+            Artikel a = it.next();
             aantalArtikelenBijKassa++;
         }
 

@@ -116,22 +116,15 @@ public class KantineSimulatie_2 {
      * @param dagen
      */
     public void simuleer(int dagen) {
-        //manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-
         double[] omzet = new double[dagen];
         int[] aantalArtikelenPerDag = new int[dagen];
-
-        /*ArrayList<Artikel> aanbod = new ArrayList<>();
-        for (int i = 0; i < artikelnamen.length; i++) {
-            aanbod.add(new Artikel(artikelnamen[i], artikelprijzen[i]));
-        }*/
 
         // for lus voor dagen
         for (int i = 0; i < dagen; i++) {
 
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
-
+/*
             // aantal artikelen met korting
             int aantalArtikelenKorting = getRandomValue(1, artikelnamen.length);
 
@@ -149,7 +142,7 @@ public class KantineSimulatie_2 {
                 artikelKorting.setKorting(0.2);
                 artikelenKortingLijst[randomIndex] = null;
             }
-
+*/
             // laat de personen maar komen...
             for (int j = 0; j < aantalpersonen; j++) {
 
@@ -191,11 +184,11 @@ public class KantineSimulatie_2 {
 
             // verwerk rij voor de kassa
             kantine.verwerkRijVoorKassa();
-
+/*
             for (int l = 0; l < artikelnamen.length; l++) {
                 kantineaanbod.getArtikel(artikelnamen[l]).setKorting(0.0);
             }
-
+*/
             // druk de dagtotalen af en hoeveel personen binnen
             // zijn gekomen
             int dag = i + 1;
@@ -204,7 +197,7 @@ public class KantineSimulatie_2 {
             System.out.println("\n" + "Dagtotalen:");
             System.out.println("Aantal personen in kantine voor dag " + dag + ": " + aantalpersonen);
             System.out.println("Aantal artikelen dat kassa passeert voor dag " + dag + ": " + kassa.aantalArtikelen());
-            System.out.println("Hoeveelheid geld in kassa voor dag " + dag + ": " + kassa.hoeveelheidGeldInKassa());
+            System.out.println("Hoeveelheid geld in kassa voor dag " + dag + ": €" + kassa.hoeveelheidGeldInKassa());
 
             omzet[i] += kassa.hoeveelheidGeldInKassa();
             aantalArtikelenPerDag[i] += kassa.aantalArtikelen();
@@ -219,13 +212,13 @@ public class KantineSimulatie_2 {
         System.out.println("Gemiddelde aantal artikelen per dag: " + gemiddeldAantal);
 
         double gemiddeldeOmzet = Administratie.berekenGemiddeldeOmzet(omzet);
-        System.out.println("Gemiddelde omzet: " + gemiddeldeOmzet);
+        System.out.println("Gemiddelde omzet: €" + gemiddeldeOmzet);
 
         String[] weekDagen = new String[] { "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag" };
         double[] dagOmzet = Administratie.berekenDagOmzet(omzet);
 
         for (int i = 0; i < weekDagen.length; i++) {
-            System.out.println("Totale omzet van alle " + weekDagen[i] + "en: " +  dagOmzet[i]);
+            System.out.println("Totale omzet van alle " + weekDagen[i] + "en: €" +  dagOmzet[i]);
         }
 
         System.out.println("\n" + "Aantal dagen gesimuleerd: " + dagen);
@@ -233,23 +226,73 @@ public class KantineSimulatie_2 {
         System.out.println("\n" + "SQL-queries:");
 
         Query totaleOmzet = manager.createQuery("SELECT SUM(totaal) FROM Factuur");
+        System.out.println("Totale omzet: €" + totaleOmzet.getSingleResult());
+
         Query toegepasteKorting = manager.createQuery("SELECT SUM(korting) FROM Factuur");
-        System.out.println("Totale omzet: " + totaleOmzet.getSingleResult());
-        System.out.println("Toegepaste korting: " + toegepasteKorting.getSingleResult());
+        System.out.println("Toegepaste korting: €" + toegepasteKorting.getSingleResult());
 
         Query gemiddeldeOmzetPerFactuur = manager.createQuery("SELECT AVG(totaal) FROM Factuur");
-        Query toegepasteKortingPerFactuur = manager.createQuery("SELECT AVG(korting) FROM Factuur");
-        System.out.println("Gemiddelde omzet per factuur: " + gemiddeldeOmzetPerFactuur.getSingleResult());
-        System.out.println("Toegepaste korting per factuur: " + toegepasteKortingPerFactuur.getSingleResult());
+        System.out.println("Gemiddelde omzet per factuur: €" + gemiddeldeOmzetPerFactuur.getSingleResult());
 
-        Query top = manager.createQuery("SELECT id, datum, korting, totaal FROM Factuur ORDER BY totaal DESC");
+        Query toegepasteKortingPerFactuur = manager.createQuery("SELECT AVG(korting) FROM Factuur");
+        System.out.println("Toegepaste korting per factuur: €" + toegepasteKortingPerFactuur.getSingleResult());
+
+        Query top = manager.createQuery("SELECT f FROM Factuur f ORDER BY totaal", Factuur.class);
         top.setMaxResults(3);
         List<Factuur> result = top.getResultList();
-        System.out.println("Top 3 van facturen met de hoogste omzet: " + result);
+
+        System.out.println("Top 3 van facturen met de hoogste omzet: ");
         for (int i = 0; i < 3; i++) {
-            System.out.println((i + 1) + ". " + result.get(i) + "\n");
+            System.out.println((i + 1) + ". " + result.get(i));
+        }
+// opgave 5
+        Query queryArtikelNamen = manager.createQuery("SELECT naam FROM factuurregel GROUP BY naam");
+        List<String> artikelNamen = queryArtikelNamen.getResultList();
+
+        Query queryprijsTotalenPerArtikel = manager.createQuery("SELECT sum(prijs) FROM factuurregel GROUP BY naam");
+        List<Double> prijsTotalenPerArtikel = queryprijsTotalenPerArtikel.getResultList();
+
+        Query querykortingTotalenPerArtikel = manager.createNativeQuery("SELECT sum(korting) FROM factuurregel GROUP BY naam");
+        List<Double> kortingTotalenPerArtikel = querykortingTotalenPerArtikel.getResultList();
+
+        System.out.println("Totalen en toegepaste kortingen per artikel: ");
+        for (int i = 0; i < artikelNamen.size(); i++) {
+            System.out.println(artikelNamen.get(i) + ": totaal: €" + prijsTotalenPerArtikel.get(i) + ", toegepaste korting: €" + kortingTotalenPerArtikel.get(i));
         }
 
+        Query queryDag = manager.createNativeQuery("SELECT DAY(f.datum) FROM factuurregel AS fr LEFT OUTER JOIN factuur AS f ON f.id = fr.factuur GROUP BY DAY(f.datum), naam");
+        List<Integer> dag = queryDag.getResultList();
+
+        Query queryArtikelNamenPerDag = manager.createNativeQuery("SELECT fr.naam FROM factuurregel AS fr LEFT OUTER JOIN factuur AS f ON f.id = fr.factuur GROUP BY DAY(f.datum), naam");
+        List<String> artikelNamenPerDag = queryArtikelNamenPerDag.getResultList();
+
+        Query queryPrijsTotalenPerArtikelPerDag = manager.createNativeQuery("SELECT sum(fr.prijs) FROM factuurregel AS fr LEFT OUTER JOIN factuur AS f ON f.id = fr.factuur GROUP BY DAY(f.datum), naam");
+        List<Double> prijsTotalenPerArtikelPerDag = queryPrijsTotalenPerArtikelPerDag.getResultList();
+
+        Query queryKortingTotalenPerArtikelPerDag = manager.createNativeQuery("SELECT sum(fr.korting) FROM factuurregel AS fr LEFT OUTER JOIN factuur AS f ON f.id = fr.factuur GROUP BY DAY(f.datum), naam");
+        List<Double> kortingTotalenPerArtikelPerDag = queryKortingTotalenPerArtikelPerDag.getResultList();
+
+        System.out.println("Totalen en toegepaste kortingen per artikel, per dag: ");
+        for (int i = 0; i < dag.size(); i++) {
+            System.out.println("Dag " + dag.get(i) + ": " + artikelNamenPerDag.get(i) + ": totaal: €" + prijsTotalenPerArtikelPerDag.get(i) + ", toegepaste korting: €" + kortingTotalenPerArtikelPerDag.get(i));
+        }
+
+        Query queryPopulairArtikelenTopDrie = manager.createQuery("SELECT naam FROM factuurregel GROUP BY naam ORDER BY count(naam) LIMIT 3");
+        List<String> populaireArtikelenTopDrie = queryPopulairArtikelenTopDrie.getResultList();
+// populair
+        System.out.println("Top 3 van meest populaire artikelen: ");
+        for (int i = 0; i < 3; i++) {
+            System.out.println((i + 1) + ". " + populaireArtikelenTopDrie.get(i));
+        }
+
+        Query queryOmzetArtikelenTopDrie = manager.createQuery("SELECT naam FROM factuurregel GROUP BY naam ORDER BY sum(prijs) DESC LIMIT 3");
+        List<String> omzetArtikelenTopDrie = queryOmzetArtikelenTopDrie.getResultList();
+
+        System.out.println("Top 3 van artikelen met hoogste omzet: ");
+        for (int i = 0; i < 3; i++) {
+            System.out.println((i + 1) + ". " + omzetArtikelenTopDrie.get(i));
+        }
+/*
         Query queryArtikelNamen = manager.createQuery("SELECT artikel_naam, sum(artikel_prijs), artikel_korting");
         List<String> artikelNamen = queryArtikelNamen.getResultList();
         System.out.println("Artikelen " + artikelNamen);
@@ -266,11 +309,7 @@ public class KantineSimulatie_2 {
         Query queryOmzetArtikelenTopDrie = manager.createQuery("SELECT artikel_naam FROM Artikel ORDER BY sum(artikel_prijs) DESC LIMIT 3");
         List<String> omzetArtikelenTopDrie = queryOmzetArtikelenTopDrie.getResultList();
         System.out.println("Meeste omzet artikelen " + omzetArtikelenTopDrie);
-        
-        for (int i = 0; i < 3; i++) {
-            System.out.println((i + 1) + ". " + result.get(i) + "\n");
-        }
-
+*/
         manager.close();
         ENTITY_MANAGER_FACTORY.close();
     }

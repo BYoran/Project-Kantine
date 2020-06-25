@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Iterator;
 import javax.persistence.*;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +30,7 @@ public class Factuur implements Serializable {
     private double totaal;
 
     @OneToMany(targetEntity = FactuurRegel.class, cascade = CascadeType.ALL)
-    private ArrayList<FactuurRegel> regels = new ArrayList<>();
+    private List<FactuurRegel> regels = new ArrayList<>();
 
     public Factuur() {
         totaal = 0;
@@ -46,7 +47,34 @@ public class Factuur implements Serializable {
     private void verwerkBestelling(Dienblad klant) {
         Iterator<Artikel> it = klant.getDienblad();
 
-        Persoon persoon = klant.getKlant();      
+        while (it.hasNext()) {
+            Artikel a = it.next();
+            totaal += a.getPrijs();
+            regels.add(new FactuurRegel(this, a));
+        }
+
+        Persoon persoon = klant.getKlant();
+
+        if (persoon instanceof KortingskaartHouder) {
+            KortingskaartHouder klantMetKorting = (KortingskaartHouder) persoon;
+            double kortingskaart = klantMetKorting.geefKortingsPercentage();
+            double modifier = 1;
+            modifier = modifier - kortingskaart;
+            if (klantMetKorting.heeftMaximum()) {
+                double max = klantMetKorting.geefMaximum();
+                if (totaal * kortingskaart > max) {
+                    korting = max;
+                    totaal -= max;
+                } else {
+                    korting = totaal * kortingskaart;
+                    totaal *= modifier;
+                }
+            } else {
+                korting = totaal * kortingskaart;
+                totaal *= modifier;
+            }
+        }
+/*
         double totaalPrijs = 0;
         double kortingDagaanbiedingen = 0;
 
@@ -58,6 +86,23 @@ public class Factuur implements Serializable {
             }
             regels.add(new FactuurRegel(this, a));
         }
+
+        if (persoon instanceof KortingskaartHouder) {
+            KortingskaartHouder klantMetKorting = (KortingskaartHouder) persoon; // casten
+
+            if (klantMetKorting.heeftMaximum()) {
+                if ((klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 < klantMetKorting.geefMaximum()) {
+                    totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+                } else {
+                    totaalPrijs -= klantMetKorting.geefMaximum() + kortingDagaanbiedingen; // haal max van het bedrag af
+                }
+            } else {
+                totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
+            }
+        }
+        this.totaal = totaalPrijs;
+        this.korting = kortingDagaanbiedingen;
+        */
         /*
         while (it.hasNext()) {
             Artikel a = it.next();
@@ -80,24 +125,7 @@ public class Factuur implements Serializable {
             this.korting += kortingDagaanbiedingen;
         }
         this.totaal = totaalPrijs;
-
-        }
         */
-        if (persoon instanceof KortingskaartHouder) {
-            KortingskaartHouder klantMetKorting = (KortingskaartHouder) persoon; // casten
-
-            if (klantMetKorting.heeftMaximum()) {
-                if ((klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 < klantMetKorting.geefMaximum()) {
-                    totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
-                } else {
-                    totaalPrijs -= klantMetKorting.geefMaximum() + kortingDagaanbiedingen; // haal max van het bedrag af
-                }
-            } else {
-                totaalPrijs -= (klantMetKorting.geefKortingsPercentage() * totaalPrijs) / 100 + kortingDagaanbiedingen; // haal korting van het bedrag af
-            }
-        }
-        this.totaal = totaalPrijs;
-        this.korting = kortingDagaanbiedingen;
     }
 
     /**
@@ -118,6 +146,13 @@ public class Factuur implements Serializable {
      * @return een printbaar bonnetje
      */
     public String toString() {
-        return "Datum: " + datum + "\n" + "Korting: " + getKorting() + "\n" + "Totaalbedrag: " + getTotal();
+        String factuurRegels = "";
+
+        for(FactuurRegel regel : regels){
+            factuurRegels += regel.toString() + "\n";
+        }
+
+        return "Factuurdatum: " + datum + "\n" + "Artikelen: " + factuurRegels.trim() + 
+                "\n" + "Korting: €" + getKorting() + "\n" + "Totaalbedrag: €" + getTotal();
     }
 }
