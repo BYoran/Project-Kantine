@@ -2,11 +2,12 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Iterator;
 import javax.persistence.*;
+import java.util.ArrayList;
 
 /**
  * class Factuur
  * 
- * @author Bjorn Smit
+ * @author Bjorn Smit & Lucas Wagenaar
  * @version 24-06-2020
  */
 
@@ -27,6 +28,9 @@ public class Factuur implements Serializable {
     @Column(name = "totaal", nullable = false)
     private double totaal;
 
+    @OneToMany(targetEntity = FactuurRegel.class, cascade = CascadeType.ALL)
+    private ArrayList<FactuurRegel> regels = new ArrayList<>();
+
     public Factuur() {
         totaal = 0;
         korting = 0;
@@ -41,7 +45,8 @@ public class Factuur implements Serializable {
 
     private void verwerkBestelling(Dienblad klant) {
         Iterator<Artikel> it = klant.getDienblad();
-        Persoon persoon = klant.getKlant();
+
+        Persoon persoon = klant.getKlant();      
         double totaalPrijs = 0;
         double kortingDagaanbiedingen = 0;
 
@@ -51,6 +56,7 @@ public class Factuur implements Serializable {
                 totaalPrijs += a.getPrijs();
                 kortingDagaanbiedingen += a.getKorting();
             }
+            regels.add(new FactuurRegel(this, a));
         }
         /*
         while (it.hasNext()) {

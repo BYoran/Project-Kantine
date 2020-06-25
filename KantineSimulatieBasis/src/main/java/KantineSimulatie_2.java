@@ -245,7 +245,28 @@ public class KantineSimulatie_2 {
         Query top = manager.createQuery("SELECT id, datum, korting, totaal FROM Factuur ORDER BY totaal DESC");
         top.setMaxResults(3);
         List<Factuur> result = top.getResultList();
-        System.out.println("Top 3 van facturen met de hoogste omzet: ");
+        System.out.println("Top 3 van facturen met de hoogste omzet: " + result);
+        for (int i = 0; i < 3; i++) {
+            System.out.println((i + 1) + ". " + result.get(i) + "\n");
+        }
+
+        Query queryArtikelNamen = manager.createQuery("SELECT artikel_naam, sum(artikel_prijs), artikel_korting");
+        List<String> artikelNamen = queryArtikelNamen.getResultList();
+        System.out.println("Artikelen " + artikelNamen);
+
+        Query queryTotaalPerDag = manager.createQuery("SELECT artikel_naam, sum(artikel.prijs), artikel_korting GROUP BY datum");
+        List<String> totaalPerDag = queryTotaalPerDag.getResultList();
+        System.out.println("Totaal per dag " + totaalPerDag);
+
+
+        Query queryPopulairArtikelenTopDrie = manager.createQuery("SELECT artikel_naam FROM Artikel GROUP BY artikel_naam ORDER BY artikel_naam LIMIT 3");
+        List<String> populaireArtikelenTopDrie = queryPopulairArtikelenTopDrie.getResultList();
+        System.out.println("Meest populaire artikelen " + populaireArtikelenTopDrie);
+
+        Query queryOmzetArtikelenTopDrie = manager.createQuery("SELECT artikel_naam FROM Artikel ORDER BY sum(artikel_prijs) DESC LIMIT 3");
+        List<String> omzetArtikelenTopDrie = queryOmzetArtikelenTopDrie.getResultList();
+        System.out.println("Meeste omzet artikelen " + omzetArtikelenTopDrie);
+        
         for (int i = 0; i < 3; i++) {
             System.out.println((i + 1) + ". " + result.get(i) + "\n");
         }
